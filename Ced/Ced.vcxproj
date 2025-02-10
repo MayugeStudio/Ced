@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\RK\Libraries\opengl\glfw-3.4.bin.WIN64\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\RK\Libraries\opengl\glfw-3.4.bin.WIN64\lib-vc2022;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\RK\SDL3-devel-3.2.2-VC\SDL3-3.2.2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\RK\SDL3-devel-3.2.2-VC\SDL3-3.2.2\lib\x64\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -112,8 +112,11 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy "C:\Users\RK\SDL3-devel-3.2.2-VC\SDL3-3.2.2\lib\x64\SDL3.dll" "$(OutDir)" /i /s /y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

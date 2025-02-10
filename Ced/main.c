@@ -1,41 +1,37 @@
 #include <stdio.h>
-#include "GLFW/glfw3.h"
+#include <SDL3/SDL.h>
 
-static const int WIN_WIDTH = 500;
-static const int WIN_HEIGHT = 500;
-static const char* WIN_TITLE = "OpenGL Course";
-
-void initializeGL()
-{
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
-}
-
-void paintGL()
-{
-    glClear(GL_COLOR_BUFFER_BIT);
-}
+static const int WIN_WIDTH = 1080;
+static const int WIN_HEIGHT = 600;
+static const char* WIN_TITLE = "Ced";
 
 int main(int argc, char** argv) {
-    if (glfwInit() == GL_FALSE) {
-        fprintf(stderr, "Initialization failed!\n");
-        return 1;
+	SDL_Window* window = SDL_CreateWindow(WIN_TITLE, WIN_WIDTH, WIN_HEIGHT, SDL_WINDOW_RESIZABLE);
+    if (!window) {
+        fprintf(stderr, "ERROR: could not create window\n");
+        exit(1);
+    }
+	SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
+    if (!renderer) {
+        fprintf(stderr, "ERROR: could not create renderer\n");
+        SDL_DestroyWindow(window);
+        exit(1);
     }
 
-    GLFWwindow* window = glfwCreateWindow(WIN_WIDTH, WIN_HEIGHT, WIN_TITLE,
-        NULL, NULL);
-    if (window == NULL) {
-        fprintf(stderr, "Window creation failed!");
-        glfwTerminate();
-        return 1;
-    }
+    SDL_Event ev;
+	while (true) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        while (SDL_PollEvent(&ev))
+        {
+            if (ev.type == SDL_EVENT_QUIT)
+                return 0;
+        }
+        SDL_RenderPresent(renderer);
+	}
 
-    glfwMakeContextCurrent(window);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 
-    initializeGL();
-
-    while (glfwWindowShouldClose(window) == GL_FALSE) {
-        paintGL();
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
+    return 0;
 }
